@@ -1,0 +1,60 @@
+version: '3.9'
+volumes:
+  prometheus_data: { }
+
+services:
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    ports:
+      - "0.0.0.0:9090:9090"
+    expose: [ 9090 ]
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  soil-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "0.0.0.0:8080:8080"
+    expose: [ 8080 ]
+    restart: always
+    depends_on:
+      - prometheus
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: monitoring_node_exporter
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:9100:9100"
+    expose: [ 9100 ]
+    depends_on:
+      - prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: monitoring_grafana
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:3000:3000"
+    expose: [ 3000 ]
+    links:
+      - prometheus:prometheus
+    volumes:
+      - ./grafana/data/grafana:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORD
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_USER=myadrress@gmail.com
+      - GF_SMTP_PASSWORD=mypassword
+      - GF_SMTP_FROM_ADDRESS=myaddress@gmail.com

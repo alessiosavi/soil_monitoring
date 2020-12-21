@@ -1,0 +1,25 @@
+# my global config
+global:
+  scrape_interval:     5s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 5s # By default, scrape targets every 15 seconds.
+
+  external_labels:
+      monitor: 'soil-monitoring'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+scrape_configs:
+  # Scrape Prometheus itself every 5 seconds.
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.119:9090']
+
+  - job_name: 'soilMonitor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ '192.168.1.119:8080']
+
+  - job_name: 'node_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ '192.168.1.119:9100']

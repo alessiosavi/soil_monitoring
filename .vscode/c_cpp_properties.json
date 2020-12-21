@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\alessio\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
+                "C:\\Users\\alessio\\Documents\\Arduino\\libraries\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "C:\\Users\\alessio\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
+                "${workspaceFolder}/**",
+                "C:\\Users\\alessio\\Documents\\Arduino\\libraries\\DHT_sensor_library",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\firmwares\\wifishield\\wifiHD\\src\\SOFTWARE_FRAMEWORK\\BOARDS\\ARDUINO",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\firmwares\\wifishield\\wifiHD\\src\\SOFTWARE_FRAMEWORK\\UTILS",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\firmwares\\wifishield\\wifi_dnld\\src\\SOFTWARE_FRAMEWORK\\UTILS\\PREPROCESSOR",
+                "C:/Program Files (x86)/Arduino/**",
+                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/**",
+                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard/**",
+                "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\libraries\\ESP8266WiFi\\src",
+                "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\tools\\sdk\\include",
+                "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\cores\\esp8266\\**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USBCON"
+            ],
+            "compilerPath": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gcc.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x64",
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}

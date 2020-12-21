@@ -1,0 +1,564 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 100,
+          "min": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 70
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 90
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "7.3.6",
+      "targets": [
+        {
+          "expr": "soil_humidity",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Humidity",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {},
+          "decimals": 2,
+          "mappings": [],
+          "max": 40,
+          "min": -5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": null
+              },
+              {
+                "color": "super-light-blue",
+                "value": 0
+              },
+              {
+                "color": "light-blue",
+                "value": 10
+              },
+              {
+                "color": "super-light-green",
+                "value": 15
+              },
+              {
+                "color": "light-green",
+                "value": 20
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "7.3.6",
+      "targets": [
+        {
+          "expr": "soil_temperature",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Temperature",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 100,
+          "min": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 70
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 90
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.6",
+      "targets": [
+        {
+          "expr": "soil_humidity",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Panel Title",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {},
+          "decimals": 2,
+          "mappings": [],
+          "max": 40,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": null
+              },
+              {
+                "color": "super-light-blue",
+                "value": 0
+              },
+              {
+                "color": "light-blue",
+                "value": 10
+              },
+              {
+                "color": "super-light-green",
+                "value": 15
+              },
+              {
+                "color": "light-green",
+                "value": 20
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.3.6",
+      "targets": [
+        {
+          "expr": "soil_temperature",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Temperature",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "soil_humidity",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "instant",
+          "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(soil_humidity{}[$__interval])  ",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "average",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Humidity",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:196",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:197",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.6",
+      "pointradius": 2,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "soil_temperature",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Temperature",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:196",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:197",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "New dashboard Copy",
+  "uid": "PN2qTnxMk",
+  "version": 1
+}
