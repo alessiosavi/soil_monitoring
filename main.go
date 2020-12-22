@@ -27,6 +27,19 @@ var (
 			Name:      "humidity",
 			Help:      "Gauge of humidity",
 		})
+	lightGauge = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Namespace: "soil",
+			Name:      "light",
+			Help:      "Gauge of light quantity",
+		})
+
+	soilGauge = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Namespace: "soil",
+			Name:      "soil",
+			Help:      "Gauge of soil humidity",
+		})
 )
 
 func main() {
@@ -45,7 +58,9 @@ func main() {
 	http.HandleFunc("/data", func(writer http.ResponseWriter, request *http.Request) {
 		temp, okT := request.URL.Query()["temp"]
 		hum, okH := request.URL.Query()["hum"]
-		if (!okT || len(temp) == 0) && (!okH || len(hum) == 0) {
+		light, okL := request.URL.Query()["light"]
+		soil, okS := request.URL.Query()["soil"]
+		if (!okT || len(temp) == 0) && (!okH || len(hum) == 0) && (!okL || len(light) == 0) && (!okS || len(soil) == 0) {
 			writer.WriteHeader(http.StatusBadRequest)
 			dumpRequest, err := httputil.DumpRequest(request, true)
 			if err != nil {
@@ -72,10 +87,26 @@ func main() {
 			}
 			log.Printf("Adding new humidity data [%f]\n", fHum)
 			humGauge.Set(fHum)
+		} else if okL {
+			fLight, err := strconv.ParseFloat(light[0], 64)
+			if err != nil {
+				writer.WriteHeader(http.StatusBadRequest)
+				log.Println("ERROR! ", err)
+			}
+			log.Printf("Adding new light data [%f]\n", fLight)
+			lightGauge.Set(fLight)
+		} else if okS {
+			fSoil, err := strconv.ParseFloat(soil[0], 64)
+			if err != nil {
+				writer.WriteHeader(http.StatusBadRequest)
+				log.Println("ERROR! ", err)
+			}
+			log.Printf("Adding new soil data [%f]\n", fSoil)
+			soilGauge.Set(fSoil)
 		}
 	})
 	http.Handle("/metrics", newHandlerWithHistogram(promhttp.Handler(), histogramVec))
-	prometheus.MustRegister(tempCounter, humGauge)
+	prometheus.MustRegister(tempCounter, humGauge, soilGauge, lightGauge)
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }
 

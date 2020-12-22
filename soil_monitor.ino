@@ -3,14 +3,16 @@
 #include <ESP8266WiFi.h> // Include the Wi-Fi library
 #include <time.h>
 
-#define DHTPIN1 14
+#define DHTPIN1 5
 #define DHTPIN2 12
+#define SOIL_PIN A0
+#define LIGHT_PIN 10
 const char *ssid = "TIM-29854979";
 const char *password = "billgatesfinocchio";
 
 DHT dht[] = {
-    {DHTPIN1, DHT11},
-    {DHTPIN2, DHT11},
+  {DHTPIN1, DHT11},
+  //    {DHTPIN2, DHT11},
 };
 
 // DHT dht1(DHTPIN1, DHTTYPE);
@@ -48,26 +50,35 @@ void setup() {
     sensor.begin();
     delay(100);
   }
-    Serial.println("DHT INITIALIZED");
-
+  Serial.println("DHT INITIALIZED");
+  pinMode(SOIL_PIN, INPUT);
 }
 
 HTTPClient http; // Declare an object of class HTTPClient
-float temp = -1;
-float hum = -1;
+
 void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WIFI DISCONNECTED! Trying to reconnect");
     connect();
   }
-
+  float temp = -1;
+  float hum = -1;
+  int light = -1;
+  int soil = -1;
   for (auto &sensor : dht) {
     temp = sensor.readTemperature(false, true);
     send_data(temp, "temp");
     hum = sensor.readHumidity(false);
     send_data(hum, "hum");
+    soil = analogRead(SOIL_PIN);
+    Serial.println(soil);
+    send_data(soil , "soil");
+
+    light = analogRead(LIGHT_PIN); // read the state of the LDR value
+    Serial.println(light);
+    send_data(light , "light");
   }
-  delay(5000);
+  delay(2000);
 }
 
 void send_data(float data, String type) {
