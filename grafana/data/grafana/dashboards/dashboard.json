@@ -64,6 +64,7 @@
         "y": 0
       },
       "id": 2,
+      "interval": "5s",
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -148,6 +149,7 @@
         "y": 0
       },
       "id": 3,
+      "interval": "5s",
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -177,6 +179,47 @@
       "type": "gauge"
     },
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                60,
+                70
+              ],
+              "type": "outside_range"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "1m",
+        "frequency": "5s",
+        "handler": 1,
+        "message": "The average of the humidity of a 5 minutes time span is out of range 60% - 70%",
+        "name": "Humidity alert",
+        "noDataState": "alerting",
+        "notifications": [
+          {
+            "uid": "omX3x4bGk"
+          }
+        ]
+      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -199,6 +242,7 @@
       },
       "hiddenSeries": false,
       "id": 8,
+      "interval": "5s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -229,11 +273,33 @@
           "expr": "soil_humidity",
           "instant": false,
           "interval": "",
-          "legendFormat": "instant",
+          "legendFormat": "Humidity",
           "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(soil_humidity{}[5m])",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Humidity avg 5m",
+          "refId": "B"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "lt",
+          "value": 60
+        },
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 70
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -277,6 +343,47 @@
       }
     },
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                15,
+                20
+              ],
+              "type": "outside_range"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "1m",
+        "frequency": "5s",
+        "handler": 1,
+        "message": "The average of the temperature of a 5 minutes time span is out of range 15 °C - 25 °C",
+        "name": "Temperature alert",
+        "noDataState": "alerting",
+        "notifications": [
+          {
+            "uid": "omX3x4bGk"
+          }
+        ]
+      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -299,6 +406,7 @@
       },
       "hiddenSeries": false,
       "id": 9,
+      "interval": "5s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -332,9 +440,32 @@
           "interval": "",
           "legendFormat": "temperature",
           "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(soil_temperature{}[5m])",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "temperature avg 5m",
+          "refId": "B"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "lt",
+          "value": 15
+        },
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 20
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -394,13 +525,14 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 10,
+        "h": 9,
         "w": 24,
         "x": 0,
         "y": 17
       },
       "hiddenSeries": false,
       "id": 11,
+      "interval": "5s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -408,7 +540,7 @@
         "max": true,
         "min": true,
         "show": true,
-        "total": true,
+        "total": false,
         "values": true
       },
       "lines": true,
@@ -431,14 +563,15 @@
           "expr": "delta(soil_humidity{}[5m])",
           "hide": false,
           "instant": false,
-          "interval": "",
+          "interval": "5s",
           "legendFormat": "humidity",
           "refId": "B"
         },
         {
           "expr": "delta(soil_temperature{}[5m])",
+          "hide": false,
           "instant": false,
-          "interval": "",
+          "interval": "5s",
           "legendFormat": "temperature",
           "refId": "C"
         }
@@ -453,6 +586,7 @@
         "sort": 0,
         "value_type": "individual"
       },
+      "transformations": [],
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -495,12 +629,12 @@
     "list": []
   },
   "time": {
-    "from": "now-2h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Weather dashboard",
   "uid": "PN2qTnxMk",
-  "version": 5
+  "version": 19
 }

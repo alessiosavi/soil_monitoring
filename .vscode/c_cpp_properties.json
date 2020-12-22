@@ -17,7 +17,8 @@
                 "C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard/**",
                 "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\libraries\\ESP8266WiFi\\src",
                 "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\tools\\sdk\\include",
-                "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\cores\\esp8266\\**"
+                "C:\\opt\\SP\\worksapce\\opensource\\Arduino\\cores\\esp8266\\**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include"
             ],
             "defines": [
                 "_DEBUG",

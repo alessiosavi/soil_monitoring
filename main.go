@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/http/httputil"
-	strconv "strconv"
+	"strconv"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -31,6 +31,7 @@ var (
 
 func main() {
 	rand.Seed(time.Now().Unix())
+	log.SetFlags(log.Lmicroseconds | log.LstdFlags | log.Lshortfile)
 
 	histogramVec := prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Name: "prom_request_time",
@@ -58,7 +59,8 @@ func main() {
 			fTemp, err := strconv.ParseFloat(temp[0], 64)
 			if err != nil {
 				writer.WriteHeader(http.StatusBadRequest)
-				panic(err)
+				log.Println("ERROR! ", err)
+				return
 			}
 			log.Printf("Adding new temperature data [%f]\n", fTemp)
 			tempCounter.Set(fTemp)
@@ -66,7 +68,7 @@ func main() {
 			fHum, err := strconv.ParseFloat(hum[0], 64)
 			if err != nil {
 				writer.WriteHeader(http.StatusBadRequest)
-				panic(err)
+				log.Println("ERROR! ", err)
 			}
 			log.Printf("Adding new humidity data [%f]\n", fHum)
 			humGauge.Set(fHum)
