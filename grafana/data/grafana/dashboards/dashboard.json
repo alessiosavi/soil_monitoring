@@ -502,7 +502,7 @@
             "evaluator": {
               "params": [
                 15,
-                20
+                22
               ],
               "type": "outside_range"
             },
@@ -615,7 +615,7 @@
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 20
+          "value": 22
         }
       ],
       "timeFrom": null,
