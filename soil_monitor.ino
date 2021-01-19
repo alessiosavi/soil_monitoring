@@ -3,10 +3,9 @@
 #include <ESP8266WiFi.h>
 #include <time.h>
 
-#define DHTPIN1 12  // D6
-#define DHTPIN2 14  // D5
-#define SOIL_PIN 4  // D2
-#define LIGHT_PIN 5 // D1
+#define DHTPIN1 12    // D6
+#define DHTPIN2 14    // D5
+#define ANALOG_PIN A0 // D1
 
 const char *ssid = "TIM-29854979";
 const char *password = "billgatesfinocchio";
@@ -17,23 +16,7 @@ DHT dht[] = {
 };
 WiFiServer server(80);
 
-int analogSoil() {
-  delay(100);
-  digitalWrite(SOIL_PIN, HIGH);
-  delay(100);
-  digitalWrite(LIGHT_PIN, LOW);
-  delay(100);
-  return analogRead(0);
-}
-
-int analogLight() {
-  delay(100);
-  digitalWrite(LIGHT_PIN, HIGH);
-  delay(100);
-  digitalWrite(SOIL_PIN, LOW);
-  delay(100);
-  return analogRead(0);
-}
+int analogRead() { return analogRead(ANALOG_PIN); }
 
 void led_off() { digitalWrite(LED_BUILTIN, HIGH); }
 void led_on() { digitalWrite(LED_BUILTIN, LOW); }
@@ -51,8 +34,8 @@ void flash_n_times(int n) {
 }
 
 void connect() {
-  WiFi.begin(ssid, password); // Connect to the network
   Serial.print("Connecting to " + String(ssid) + " ...");
+  WiFi.begin(ssid, password); // Connect to the network
   // Turn the LED on by making the voltage LOW
   digitalWrite(LED_BUILTIN, LOW);
   int i = 0;
@@ -69,6 +52,7 @@ void connect() {
   Serial.println(WiFi.localIP());
   // Turn the LED off by making the voltage HIGH
   digitalWrite(LED_BUILTIN, HIGH);
+  Serial.print(ESP.getFreeHeap());
 }
 
 void setup() {
@@ -82,42 +66,50 @@ void setup() {
     delay(100);
   }
   Serial.println("DHT INITIALIZED");
-  pinMode(SOIL_PIN, INPUT);
+  pinMode(ANALOG_PIN, INPUT);
 }
 
 // Declare an object of class HTTPClient
 HTTPClient http;
-
+float temp = 0;
+float hum = 0;
+int light = -1;
+// int soil = -1;
 void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WIFI DISCONNECTED! Trying to reconnect");
     connect();
   }
-  float temp = -1;
-  float hum = -1;
-  //  int light = -1;
-  //  int soil = -1;
-  for (auto &sensor : dht) {
 
+  for (auto &sensor : dht) {
     // Read and send temperature
     temp = sensor.readTemperature(false, true);
-    send_data(temp, "temp");
+    if (isnan(temp)) {
+      flash_n_times(3);
+    } else {
+      send_data(temp, "temp");
+    }
 
     // Read and send the humidity
-    hum = sensor.readHumidity(false);
-    send_data(hum, "hum");
-
-    //    // Read and send light
-    //    light = analogLight();
-    //    Serial.println(light);
-    //    send_data(light , "light");
-    //
-    //    // Read and send soil
-    //    soil = analogSoil();
-    //    Serial.println(soil);
-    //    send_data(soil , "soil");
+    hum = sensor.readHumidity(true);
+    if (isnan(hum)) {
+      flash_n_times(3);
+    } else {
+      send_data(hum, "hum");
+    }
   }
-  delay(2000);
+
+  // Read and send light
+  light = analogRead();
+  Serial.println(light, DEC);
+  send_data(light, "light");
+  //
+  //    // Read and send soil
+  //    soil = analogSoil();
+  //    Serial.println(soil);
+  //    send_data(soil , "soil");
+
+  delay(1000);
 }
 
 void send_data(float data, String type) {

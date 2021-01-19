@@ -37,10 +37,14 @@
               },
               {
                 "color": "green",
-                "value": 70
+                "value": 60
               },
               {
                 "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "semi-dark-orange",
                 "value": 80
               },
               {
@@ -48,8 +52,8 @@
                 "value": 90
               },
               {
-                "color": "dark-red",
-                "value": 100
+                "color": "dark-purple",
+                "value": 110
               }
             ]
           },
@@ -997,12 +1001,12 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Weather dashboard",
   "uid": "PN2qTnxMk",
-  "version": 22
+  "version": 24
 }
