@@ -3,6 +3,8 @@
 #include <ESP8266WiFi.h>
 #include <time.h>
 
+#define VIN 5         // V power voltage
+#define R 10000       // ohm resistance value
 #define DHTPIN1 12    // D6
 #define DHTPIN2 14    // D5
 #define ANALOG_PIN A0 // D1
@@ -74,6 +76,7 @@ HTTPClient http;
 float temp = 0;
 float hum = 0;
 int light = -1;
+int lumen = -1;
 // int soil = -1;
 void loop() {
   if (WiFi.status() != WL_CONNECTED) {
@@ -84,14 +87,16 @@ void loop() {
   for (auto &sensor : dht) {
     // Read and send temperature
     temp = sensor.readTemperature(false, true);
+    Serial.println("Temperature: " + String(temp));
     if (isnan(temp)) {
-      flash_n_times(3);
+      flash_n_times(2);
     } else {
       send_data(temp, "temp");
     }
 
     // Read and send the humidity
-    hum = sensor.readHumidity(true);
+    hum = sensor.readHumidity(false);
+    Serial.println("Humidity: " + String(hum));
     if (isnan(hum)) {
       flash_n_times(3);
     } else {
@@ -101,15 +106,27 @@ void loop() {
 
   // Read and send light
   light = analogRead();
-  Serial.println(light, DEC);
-  send_data(light, "light");
+  Serial.println("Light: " + String(light));
+  send_data(float(light), "light");
+
+  lumen = analogToLumen(light);
+  Serial.println("Lumen: " + String(lumen));
+  send_data(float(lumen), "lumen");
   //
   //    // Read and send soil
   //    soil = analogSoil();
   //    Serial.println(soil);
   //    send_data(soil , "soil");
 
-  delay(1000);
+  delay(2000);
+}
+
+int analogToLumen(int raw) {
+  // Conversion rule
+  float Vout = float(raw) * (VIN / float(1023)); // Conversion analog to voltage
+  float RLDR = (R * (VIN - Vout)) / Vout; // Conversion voltage to resistance
+  int phys = 500 / (RLDR / 1000);         // Conversion resitance to lumen
+  return phys;
 }
 
 void send_data(float data, String type) {

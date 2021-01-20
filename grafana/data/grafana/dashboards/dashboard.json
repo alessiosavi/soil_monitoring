@@ -64,7 +64,7 @@
       "gridPos": {
         "h": 7,
         "w": 4,
-        "x": 1,
+        "x": 0,
         "y": 0
       },
       "id": 2,
@@ -81,7 +81,7 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "targets": [
         {
           "expr": "soil_humidity",
@@ -140,7 +140,7 @@
       "gridPos": {
         "h": 7,
         "w": 4,
-        "x": 7,
+        "x": 5,
         "y": 0
       },
       "id": 12,
@@ -157,7 +157,7 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "targets": [
         {
           "expr": "soil_soil",
@@ -216,7 +216,83 @@
       "gridPos": {
         "h": 7,
         "w": 4,
-        "x": 13,
+        "x": 10,
+        "y": 0
+      },
+      "id": 16,
+      "interval": "5s",
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "lumen_lumen",
+          "format": "time_series",
+          "instant": true,
+          "interval": "2s",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Lumen",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 1024,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 70
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 90
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 15,
         "y": 0
       },
       "id": 13,
@@ -233,13 +309,13 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "targets": [
         {
           "expr": "soil_light",
           "format": "time_series",
           "instant": true,
-          "interval": "",
+          "interval": "2s",
           "legendFormat": "",
           "refId": "A"
         }
@@ -301,7 +377,7 @@
       "gridPos": {
         "h": 7,
         "w": 4,
-        "x": 19,
+        "x": 20,
         "y": 0
       },
       "id": 3,
@@ -318,7 +394,7 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "targets": [
         {
           "expr": "soil_temperature",
@@ -416,7 +492,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -428,14 +504,14 @@
         {
           "expr": "soil_humidity",
           "instant": false,
-          "interval": "",
+          "interval": "2s",
           "legendFormat": "Humidity",
           "refId": "A"
         },
         {
           "expr": "avg_over_time(soil_humidity{}[5m])",
           "instant": false,
-          "interval": "",
+          "interval": "2s",
           "legendFormat": "Humidity avg 5m",
           "refId": "B"
         }
@@ -580,7 +656,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -593,7 +669,7 @@
           "expr": "soil_temperature",
           "hide": false,
           "instant": false,
-          "interval": "",
+          "interval": "2s",
           "legendFormat": "temperature",
           "refId": "A"
         },
@@ -601,7 +677,7 @@
           "expr": "avg_over_time(soil_temperature{}[5m])",
           "hide": false,
           "instant": false,
-          "interval": "",
+          "interval": "2s",
           "legendFormat": "temperature avg 5m",
           "refId": "B"
         }
@@ -705,7 +781,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -813,7 +889,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -922,7 +998,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.6",
+      "pluginVersion": "7.3.7",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1001,12 +1077,25 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
   "timezone": "",
   "title": "Weather dashboard",
   "uid": "PN2qTnxMk",
-  "version": 24
+  "version": 27
 }

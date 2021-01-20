@@ -32,7 +32,7 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     container_name: monitoring_node_exporter
-    restart: unless-stopped
+    restart: always
     ports:
       - "0.0.0.0:9100:9100"
     expose: [ 9100 ]
@@ -42,7 +42,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: monitoring_grafana
-    restart: unless-stopped
+    restart: always
     ports:
       - "0.0.0.0:3000:3000"
     expose: [ 3000 ]
