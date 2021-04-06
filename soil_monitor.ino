@@ -23,8 +23,7 @@ int analogRead() { return analogRead(ANALOG_PIN); }
 void led_off() { digitalWrite(LED_BUILTIN, HIGH); }
 void led_on() { digitalWrite(LED_BUILTIN, LOW); }
 
-// flash_n_times is delegated to produce N flash from the standard LED of the
-// eps8266
+// flash_n_times is delegated to produce N flash from the standard LED of the eps8266
 void flash_n_times(int n) {
   led_off();
   for (int i = 0; i < n; i++) {
