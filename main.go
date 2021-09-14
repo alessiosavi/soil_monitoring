@@ -51,7 +51,7 @@ var (
 func main() {
 	rand.Seed(time.Now().Unix())
 	log.SetFlags(log.Lmicroseconds | log.LstdFlags | log.Lshortfile)
-
+	log.Println("STARTING SOIL MONITORING ...")
 	histogramVec := prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Name: "prom_request_time",
 		Help: "Time it has taken to retrieve the metrics",
@@ -109,7 +109,7 @@ func main() {
 				writer.WriteHeader(http.StatusBadRequest)
 				log.Println("ERROR! ", err)
 			}
-			log.Printf("Adding new soil data [%d]\n", fSoil)
+			log.Printf("Adding new soil data [%f]\n", fSoil)
 			soilGauge.Set(fSoil)
 		} else if okLu {
 			fLumen, err := strconv.ParseFloat(lumen[0], 64)
@@ -117,7 +117,7 @@ func main() {
 				writer.WriteHeader(http.StatusBadRequest)
 				log.Println("ERROR! ", err)
 			}
-			log.Printf("Adding new lumen data [%d]\n", fLumen)
+			log.Printf("Adding new lumen data [%f]\n", fLumen)
 			lumenGauge.Set(fLumen)
 		}
 	})

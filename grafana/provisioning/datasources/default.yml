@@ -5,7 +5,7 @@ datasources:
     type: prometheus
     access: direct
     orgId: 1
-    url: http://192.168.1.119:9090
+    url: http://0.0.0.0:9090
     isDefault: true
     version: 1
     editable: false

@@ -1,22 +1,6 @@
 {
+    "C_Cpp.errorSquiggles": "Enabled",
     "files.associations": {
-        "array": "cpp",
-        "deque": "cpp",
-        "list": "cpp",
-        "string": "cpp",
-        "unordered_map": "cpp",
-        "vector": "cpp",
-        "string_view": "cpp",
-        "initializer_list": "cpp",
-        "atomic": "cpp",
-        "*.tcc": "cpp",
-        "cmath": "cpp",
-        "random": "cpp",
-        "fstream": "cpp",
-        "functional": "cpp",
-        "limits": "cpp",
-        "optional": "cpp",
-        "tuple": "cpp",
-        "type_traits": "cpp"
+        "cmath": "cpp"
     }
 }
