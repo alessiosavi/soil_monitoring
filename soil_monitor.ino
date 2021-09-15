@@ -22,11 +22,13 @@ WiFiClient wificlient;
 
 WiFiServer server(80);
 HTTPClient http;
-float temp = -1;
-float hum = -1;
-int light = -1;
-int lumen = -1;
-float heat_index = -1;
+
+const int MAX_MEASURES = 10;
+
+float temps[10];
+float hums[10];
+float heats[10];
+
 // int soil = -1;
 
 String dashboard_server = "http://192.168.1.118:8080/status";
@@ -80,32 +82,91 @@ void setup() {
 }
 
 void loop() {
+  float temp = -1;
+  float heat_index = -1;
+  float hum = -1;
+
+  int light = -1;
+  int lumen = -1;
+
+  int ti = 0;
+  int th = 0;
+  int the = 0;
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WIFI DISCONNECTED! Trying to reconnect");
     connect();
   }
 
-  for (auto &sensor : dht) {
-    temp = sensor.readTemperature(false, true);
-    if (isnan(temp))
-      flash_n_times(2);
-    else
-      send_data(temp, "temp");
+  while (ti < MAX_MEASURES || th < MAX_MEASURES || the < MAX_MEASURES) {
+    for (auto &sensor : dht) {
+      if (ti < MAX_MEASURES) {
+        delay(50);
+        temp = sensor.readTemperature(false);
+        //        Serial.println("TEMP: " + String(temp));
+        if (isnan(temp) || temp < 1)
+          flash_n_times(2);
+        else {
+          // send_data(temp, "temp");
+          temps[ti] = temp;
+          ti++;
+        }
+      }
 
-    hum = sensor.readHumidity(false);
-    if (isnan(hum))
-      flash_n_times(3);
-    else
-      send_data(hum, "hum");
-    heat_index = sensor.computeHeatIndex(temp,hum,false);
-    if (isnan(heat_index))
-      flash_n_times(4);
-    else
-      send_data(heat_index, "heat");
-    Serial.println("Humidity: " + String(hum));
-    Serial.println("Temperature: " + String(temp));
-    Serial.println("Heat Index: " + String(heat_index));
+      if (th < MAX_MEASURES) {
+        delay(50);
+        hum = sensor.readHumidity();
+        //        Serial.println("HUM: " + String(hum));
+        if (isnan(hum) || hum < 1)
+          flash_n_times(3);
+        else {
+          // send_data(hum, "hum");
+          hums[th] = hum;
+          th++;
+        }
+      }
+
+      if (the < MAX_MEASURES) {
+        delay(50);
+        heat_index = sensor.computeHeatIndex(false);
+        //        Serial.println("HEAT: " + String(heat_index));
+        if (isnan(heat_index) || heat_index < 1)
+          flash_n_times(4);
+        else {
+          // send_data(heat_index, "heat");
+          heats[the] = heat_index;
+          the++;
+        }
+      }
+    }
+    //    delay(1000);
   }
+  temp, hum, heat_index = 0;
+  //  Serial.println("TEMPS: ");
+  //  print_array(temps);
+  //  Serial.println("HUMIDITY: ");
+  //  print_array(hums);
+  //  Serial.println("HEAT INDEXES: ");
+  //  print_array(heats);
+  for (int i = 0; i < MAX_MEASURES; i++) {
+    temp += temps[i];
+    temps[i] = 0;
+    hum += hums[i];
+    hums[i] = 0;
+    heat_index += heats[i];
+    heats[i] = 0;
+  }
+
+  temp = temp / float(MAX_MEASURES);
+  hum = hum / float(MAX_MEASURES);
+  heat_index = heat_index / float(MAX_MEASURES);
+
+  Serial.print("Humidity: " + String(hum));
+  Serial.print(" Temperature: " + String(temp));
+  Serial.print(" Heat Index: " + String(heat_index));
+  Serial.println();
+  send_data(temp, "temp");
+  send_data(hum, "hum");
+  send_data(heat_index, "heat");
 
   // Read and send light
   light = analogRead();
@@ -119,8 +180,7 @@ void loop() {
   //    soil = analogSoil();
   //    Serial.println(soil);
   //    send_data(soil , "soil");
-
-  delay(2000);
+  delay(1000);
 }
 
 int analogToLumen(int raw) {
@@ -189,4 +249,13 @@ void flash_n_times(int n) {
     led_off();
     delay(200);
   }
+}
+
+void print_array(float data[]) {
+  Serial.print('[ ');
+  for (int i = 0; i < MAX_MEASURES; i++) {
+    Serial.print(data[i]);
+    Serial.print(' ');
+  }
+  Serial.println(']');
 }
