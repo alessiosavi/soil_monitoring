@@ -8,6 +8,12 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
@@ -24,7 +30,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "max": 100,
           "min": 40,
@@ -79,9 +84,10 @@
           "values": false
         },
         "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "targets": [
         {
           "expr": "soil_humidity",
@@ -104,7 +110,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "max": 100,
           "min": 40,
@@ -155,9 +160,10 @@
           "values": false
         },
         "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "targets": [
         {
           "expr": "soil_soil",
@@ -180,7 +186,6 @@
           "color": {
             "mode": "continuous-GrYlRd"
           },
-          "custom": {},
           "mappings": [],
           "max": 1024,
           "min": 0,
@@ -231,12 +236,14 @@
           "values": false
         },
         "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "targets": [
         {
-          "expr": "lumen_lumen",
+          "exemplar": true,
+          "expr": "soil_lumen",
           "format": "time_series",
           "instant": true,
           "interval": "2s",
@@ -256,7 +263,6 @@
           "color": {
             "mode": "continuous-GrYlRd"
           },
-          "custom": {},
           "mappings": [],
           "max": 1024,
           "min": 0,
@@ -307,9 +313,10 @@
           "values": false
         },
         "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "targets": [
         {
           "expr": "soil_light",
@@ -332,7 +339,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "decimals": 2,
           "mappings": [],
           "max": 40,
@@ -392,9 +398,10 @@
           "values": false
         },
         "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "targets": [
         {
           "expr": "soil_temperature",
@@ -409,6 +416,110 @@
       "timeShift": null,
       "title": "Temperature",
       "type": "gauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "decimals": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "hiddenSeries": false,
+      "id": 17,
+      "interval": "5s",
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.1.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "soil_heat",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Heat",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "avg_over_time(soil_heat{}[5m])",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Heat avg 5m",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Heat index",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:196",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:197",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "alert": {
@@ -458,19 +569,13 @@
       "dashes": false,
       "datasource": null,
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 8,
@@ -492,7 +597,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -522,14 +627,16 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 60
+          "value": 60,
+          "visible": true
         },
         {
           "colorMode": "critical",
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 70
+          "value": 70,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -622,19 +729,13 @@
       "dashes": false,
       "datasource": null,
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 9,
@@ -656,7 +757,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -688,14 +789,16 @@
           "fill": true,
           "line": true,
           "op": "lt",
-          "value": 15
+          "value": 15,
+          "visible": true
         },
         {
           "colorMode": "critical",
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 22
+          "value": 22,
+          "visible": true
         }
       ],
       "timeFrom": null,
@@ -747,19 +850,13 @@
       "dashes": false,
       "datasource": null,
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 14,
@@ -781,7 +878,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -855,19 +952,13 @@
       "dashes": false,
       "datasource": null,
       "decimals": 2,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 15,
@@ -889,7 +980,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -965,7 +1056,6 @@
       "decimals": 2,
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "unit": "short"
         },
         "overrides": []
@@ -976,7 +1066,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 37
       },
       "hiddenSeries": false,
       "id": 11,
@@ -998,7 +1088,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "8.1.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1069,15 +1159,15 @@
       }
     }
   ],
-  "refresh": "5s",
-  "schemaVersion": 26,
+  "refresh": "",
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -1097,5 +1187,5 @@
   "timezone": "",
   "title": "Weather dashboard",
   "uid": "PN2qTnxMk",
-  "version": 27
+  "version": 4
 }

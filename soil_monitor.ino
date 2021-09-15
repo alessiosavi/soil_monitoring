@@ -22,10 +22,11 @@ WiFiClient wificlient;
 
 WiFiServer server(80);
 HTTPClient http;
-float temp = 0;
-float hum = 0;
+float temp = -1;
+float hum = -1;
 int light = -1;
 int lumen = -1;
+float heat_index = -1;
 // int soil = -1;
 
 String dashboard_server = "http://192.168.1.118:8080/status";
@@ -96,15 +97,20 @@ void loop() {
       flash_n_times(3);
     else
       send_data(hum, "hum");
+    heat_index = sensor.computeHeatIndex(temp,hum,false);
+    if (isnan(heat_index))
+      flash_n_times(4);
+    else
+      send_data(heat_index, "heat");
     Serial.println("Humidity: " + String(hum));
     Serial.println("Temperature: " + String(temp));
+    Serial.println("Heat Index: " + String(heat_index));
   }
 
   // Read and send light
   light = analogRead();
   Serial.println("Light: " + String(light));
   send_data(float(light), "light");
-
   lumen = analogToLumen(light);
   Serial.println("Lumen: " + String(lumen));
   send_data(float(lumen), "lumen");
