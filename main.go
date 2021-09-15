@@ -61,6 +61,11 @@ func main() {
 		panic(err)
 	}
 
+	http.HandleFunc("/status", func(writer http.ResponseWriter, request *http.Request) {
+		writer.WriteHeader(202)
+		writer.Write([]byte("UP"))
+	})
+
 	http.HandleFunc("/data", func(writer http.ResponseWriter, request *http.Request) {
 		temp, okT := request.URL.Query()["temp"]
 		hum, okH := request.URL.Query()["hum"]

@@ -1,8 +1,8 @@
-FROM golang:1.17.1
+FROM golang:1.17.1-alpine
 
 # The latest alpine images don't have some tools like (`git` and `bash`).
 # Adding git, bash and openssh to the image
-RUN apt update && apt upgrade
+#RUN apt update && apt upgrade
 
 LABEL maintainer="Alessio Savi <alessiosavibtc@gmail.com>"
 
@@ -15,6 +15,8 @@ COPY . /app
 RUN go get -v -u
 RUN go mod tidy
 RUN go clean
+
+RUN rm /app/soil_monitor.ino
 
 # Build the Go app
 RUN go build -o soil_monitor

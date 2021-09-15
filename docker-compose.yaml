@@ -44,7 +44,7 @@ services:
     image: grafana/grafana:latest
     container_name: monitoring_grafana
     restart: always
-    user: '104'
+    user: '0'
     command: >
       sh -c "chown -R root:root /etc/grafana && \
              chmod -R a+r /etc/grafana && \
