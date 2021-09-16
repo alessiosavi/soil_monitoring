@@ -19,19 +19,19 @@ DHT dht[] = {
 };
 
 WiFiClient wificlient;
-
 WiFiServer server(80);
 HTTPClient http;
 
+// Number of measure taken before calculate the MEAN
 const int MAX_MEASURES = 10;
 
 float temps[10];
 float hums[10];
 float heats[10];
 
-// int soil = -1;
+// Start url in order to verify where the dashboard is available
+String dashboard_server = "http://192.168.1.100:8080/status";
 
-String dashboard_server = "http://192.168.1.118:8080/status";
 int analogRead() { return analogRead(ANALOG_PIN); }
 void led_off() { digitalWrite(LED_BUILTIN, HIGH); }
 void led_on() { digitalWrite(LED_BUILTIN, LOW); }
@@ -74,7 +74,7 @@ void setup() {
   Serial.println("DHT BEGIN");
   for (auto &sensor : dht) {
     sensor.begin();
-    delay(300);
+    delay(500);
   }
   Serial.println("DHT INITIALIZED");
   pinMode(ANALOG_PIN, INPUT);
@@ -100,10 +100,10 @@ void loop() {
   while (ti < MAX_MEASURES || th < MAX_MEASURES || the < MAX_MEASURES) {
     for (auto &sensor : dht) {
       if (ti < MAX_MEASURES) {
-        delay(50);
+        delay(200);
         temp = sensor.readTemperature(false);
-        //        Serial.println("TEMP: " + String(temp));
-        if (isnan(temp) || temp < 1)
+        // Serial.println("TEMP: " + String(temp));
+        if (isnan(temp) || temp < 1 || temp > 40)
           flash_n_times(2);
         else {
           // send_data(temp, "temp");
@@ -113,10 +113,10 @@ void loop() {
       }
 
       if (th < MAX_MEASURES) {
-        delay(50);
+        delay(200);
         hum = sensor.readHumidity();
         //        Serial.println("HUM: " + String(hum));
-        if (isnan(hum) || hum < 1)
+        if (isnan(hum) || hum < 1 || hum > 100)
           flash_n_times(3);
         else {
           // send_data(hum, "hum");
@@ -126,10 +126,10 @@ void loop() {
       }
 
       if (the < MAX_MEASURES) {
-        delay(50);
+        delay(200);
         heat_index = sensor.computeHeatIndex(false);
         //        Serial.println("HEAT: " + String(heat_index));
-        if (isnan(heat_index) || heat_index < 1)
+        if (isnan(heat_index) || heat_index < 1 || heat_index > 50)
           flash_n_times(4);
         else {
           // send_data(heat_index, "heat");
@@ -150,8 +150,10 @@ void loop() {
   for (int i = 0; i < MAX_MEASURES; i++) {
     temp += temps[i];
     temps[i] = 0;
+
     hum += hums[i];
     hums[i] = 0;
+
     heat_index += heats[i];
     heats[i] = 0;
   }
