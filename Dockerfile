@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:latest
 
 
 # The latest alpine images don't have some tools like (`git` and `bash`).
@@ -20,10 +20,10 @@ RUN go clean
 RUN rm /app/soil_monitor.ino
 
 # Build the Go app
-RUN go build -o soil_monitor
+RUN go build -o soil_mon
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Run the executable
-CMD ["./soil_monitor"]
+CMD ["./soil_mon"]

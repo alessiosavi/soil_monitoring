@@ -10,8 +10,8 @@
 #define DHTPIN2 14    // D5
 #define ANALOG_PIN A0 // D1
 
-const char *ssid = "TIM-29854979";
-const char *password = "billgatesfinocchio";
+const char *ssid = "TIM-29854979-2g";
+const char *password = "billagtesfinocchio";
 
 DHT dht[] = {
     {DHTPIN1, DHT22},
@@ -30,7 +30,7 @@ float hums[10];
 float heats[10];
 
 // Start url in order to verify where the dashboard is available
-String dashboard_server = "http://192.168.1.100:8080/status";
+String dashboard_server = "http://192.168.1.118:8080/status";
 
 int analogRead() { return analogRead(ANALOG_PIN); }
 void led_off() { digitalWrite(LED_BUILTIN, HIGH); }
@@ -96,76 +96,18 @@ void loop() {
     connect();
   }
 
-  while (ti < MAX_MEASURES || th < MAX_MEASURES) {
-    for (auto &sensor : dht) {
-      if (ti < MAX_MEASURES) {
-        delay(250);
-        temp = sensor.readTemperature(false, true);
-        // Serial.println("TEMP: " + String(temp));
-        if (isnan(temp) || temp < 1 || temp > 40)
-          //        if (isnan(temp))
-          flash_n_times(2);
-        else {
-          // send_data(temp, "temp");
-          temps[ti] = temp;
-          ti++;
-        }
-      }
-
-      if (th < MAX_MEASURES) {
-        delay(250);
-        hum = sensor.readHumidity(false);
-        //        Serial.println("HUM: " + String(hum));
-        if (isnan(hum) || hum < 1 || hum > 100)
-          //        if (isnan(hum))
-          flash_n_times(3);
-        else {
-          // send_data(hum, "hum");
-          hums[th] = hum;
-          th++;
-        }
-      }
-    }
+  for (auto &sensor : dht) {
+    temp = sensor.readTemperature(false, true);
+    hum = sensor.readHumidity(false);
+    heat_index = sensor.computeHeatIndex(temp, hum, false);
+    Serial.print("Humidity: " + String(hum));
+    Serial.print(" Temperature: " + String(temp));
+    Serial.print(" Heat Index: " + String(heat_index));
+    Serial.println();
+    send_data(temp, "temp");
+    send_data(hum, "hum");
+    send_data(heat_index, "heat");
   }
-  temp, hum, heat_index = 0;
-  //  Serial.println("TEMPS: ");
-  //  print_array(temps);
-  //  Serial.println("HUMIDITY: ");
-  //  print_array(hums);
-  //  Serial.println("HEAT INDEXES: ");
-  //  print_array(heats);
-  for (int i = 0; i < MAX_MEASURES; i++) {
-    temp += temps[i];
-    temps[i] = 0;
-
-    hum += hums[i];
-    hums[i] = 0;
-
-    // heat_index += heats[i];
-    // heats[i] = 0;
-  }
-
-  temp = temp / float(MAX_MEASURES);
-  hum = hum / float(MAX_MEASURES);
-
-  // delay(300);
-  heat_index = dht[0].computeHeatIndex(temp, hum, false);
-  // //        Serial.println("HEAT: " + String(heat_index));
-  // if (isnan(heat_index) || heat_index < 1 || heat_index > 50)
-  //   flash_n_times(4);
-  // else {
-  //   // send_data(heat_index, "heat");
-  //   heats[the] = heat_index;
-  //   the++;
-  // }
-
-  Serial.print("Humidity: " + String(hum));
-  Serial.print(" Temperature: " + String(temp));
-  Serial.print(" Heat Index: " + String(heat_index));
-  Serial.println();
-  send_data(temp, "temp");
-  send_data(hum, "hum");
-  send_data(heat_index, "heat");
 
   // Read and send light
   light = analogRead();
@@ -179,7 +121,7 @@ void loop() {
   //    soil = analogSoil();
   //    Serial.println(soil);
   //    send_data(soil , "soil");
-  delay(1000);
+  delay(2100);
 }
 
 int analogToLumen(int raw) {
@@ -208,7 +150,7 @@ void service_discovery() {
   String ip1 = "192";
   String ip2 = "168";
   int ip3 = 1;
-  int ip4 = 2;
+  int ip4 = 100;
   String port = "8080";
   //  http.setReuse(true);
   http.setTimeout(500);
