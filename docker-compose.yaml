@@ -1,14 +1,13 @@
 version: '3.9'
 volumes:
-  prometheus_data: { }
+  prometheus_data: {}
 
 services:
-
-
   soil-monitor:
     build: .
-    #      context: .
-    #      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     ports:
       - "0.0.0.0:8080:8080"
     expose: [ 8080 ]
@@ -67,4 +66,5 @@ services:
       - GF_SMTP_FROM_ADDRESS=myaddress@gmail.com
     depends_on:
       - prometheus
+
 #    network_mode: "host"

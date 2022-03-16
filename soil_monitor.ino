@@ -14,8 +14,8 @@ const char *ssid = "TIM-29854979";
 const char *password = "billgatesfinocchio";
 
 DHT dht[] = {
-    {DHTPIN1, DHT11},
-    {DHTPIN2, DHT11},
+    {DHTPIN1, DHT22},
+    {DHTPIN2, DHT22},
 };
 
 WiFiClient wificlient;
@@ -91,19 +91,19 @@ void loop() {
 
   int ti = 0;
   int th = 0;
-  int the = 0;
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WIFI DISCONNECTED! Trying to reconnect");
     connect();
   }
 
-  while (ti < MAX_MEASURES || th < MAX_MEASURES || the < MAX_MEASURES) {
+  while (ti < MAX_MEASURES || th < MAX_MEASURES) {
     for (auto &sensor : dht) {
       if (ti < MAX_MEASURES) {
-        delay(200);
-        temp = sensor.readTemperature(false);
+        delay(250);
+        temp = sensor.readTemperature(false, true);
         // Serial.println("TEMP: " + String(temp));
         if (isnan(temp) || temp < 1 || temp > 40)
+          //        if (isnan(temp))
           flash_n_times(2);
         else {
           // send_data(temp, "temp");
@@ -113,10 +113,11 @@ void loop() {
       }
 
       if (th < MAX_MEASURES) {
-        delay(200);
-        hum = sensor.readHumidity();
+        delay(250);
+        hum = sensor.readHumidity(false);
         //        Serial.println("HUM: " + String(hum));
         if (isnan(hum) || hum < 1 || hum > 100)
+          //        if (isnan(hum))
           flash_n_times(3);
         else {
           // send_data(hum, "hum");
@@ -124,21 +125,7 @@ void loop() {
           th++;
         }
       }
-
-      if (the < MAX_MEASURES) {
-        delay(200);
-        heat_index = sensor.computeHeatIndex(false);
-        //        Serial.println("HEAT: " + String(heat_index));
-        if (isnan(heat_index) || heat_index < 1 || heat_index > 50)
-          flash_n_times(4);
-        else {
-          // send_data(heat_index, "heat");
-          heats[the] = heat_index;
-          the++;
-        }
-      }
     }
-    //    delay(1000);
   }
   temp, hum, heat_index = 0;
   //  Serial.println("TEMPS: ");
@@ -154,13 +141,23 @@ void loop() {
     hum += hums[i];
     hums[i] = 0;
 
-    heat_index += heats[i];
-    heats[i] = 0;
+    // heat_index += heats[i];
+    // heats[i] = 0;
   }
 
   temp = temp / float(MAX_MEASURES);
   hum = hum / float(MAX_MEASURES);
-  heat_index = heat_index / float(MAX_MEASURES);
+
+  // delay(300);
+  heat_index = dht[0].computeHeatIndex(temp, hum, false);
+  // //        Serial.println("HEAT: " + String(heat_index));
+  // if (isnan(heat_index) || heat_index < 1 || heat_index > 50)
+  //   flash_n_times(4);
+  // else {
+  //   // send_data(heat_index, "heat");
+  //   heats[the] = heat_index;
+  //   the++;
+  // }
 
   Serial.print("Humidity: " + String(hum));
   Serial.print(" Temperature: " + String(temp));
