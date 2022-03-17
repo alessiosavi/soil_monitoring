@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:alpine
 
 
 # The latest alpine images don't have some tools like (`git` and `bash`).
@@ -14,7 +14,7 @@ WORKDIR /app
 COPY . /app
 # Download dependencies
 RUN go get -v -u
-RUN go mod tidy
+RUN go mod tidy -compat=1.17
 RUN go clean
 
 RUN rm /app/soil_monitor.ino

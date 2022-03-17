@@ -1,13 +1,12 @@
 version: '3.9'
 volumes:
-  prometheus_data: {}
+  prometheus_data: { }
 
 services:
   soil-monitor:
     build: .
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    #      context: .
+    #      dockerfile: Dockerfile
     ports:
       - "0.0.0.0:8080:8080"
     expose: [ 8080 ]
@@ -29,42 +28,40 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
 
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: monitoring_node_exporter
-    restart: always
-    ports:
-      - "0.0.0.0:9100:9100"
-    expose: [ 9100 ]
-    depends_on:
-      - prometheus
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: monitoring_node_exporter
+  #   restart: always
+  #   ports:
+  #     - "0.0.0.0:9100:9100"
+  #   expose: [ 9100 ]
+  #   depends_on:
+  #     - prometheus
 
-  grafana:
-    image: grafana/grafana:latest
-    container_name: monitoring_grafana
-    restart: always
-    # user: '0'
-    # command: >
-    #   sh -c "chown -R root:root /etc/grafana && \
-    #          chmod -R a+r /etc/grafana && \
-    #          chown -R grafana:grafana /var/lib/grafana && \
-    #          chown -R grafana:grafana /usr/share/grafana"
-    ports:
-      - "0.0.0.0:3000:3000"
-    expose: [ 3000 ]
-    links:
-      - prometheus:prometheus
-    # volumes:
-      # - ./grafana/data/grafana:/var/lib/grafana
-      # - ./grafana/provisioning/:/etc/grafana/provisioning/
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORD
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SMTP_ENABLED=false
-      - GF_SMTP_USER=myadrress@gmail.com
-      - GF_SMTP_PASSWORD=mypassword
-      - GF_SMTP_FROM_ADDRESS=myaddress@gmail.com
-    depends_on:
-      - prometheus
-
-#    network_mode: "host"
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: monitoring_grafana
+  #   restart: always
+  #   user: '0'
+  #   command: >
+  #     sh -c "chown -R root:root /etc/grafana && \
+  #            chmod -R a+r /etc/grafana && \
+  #            chown -R grafana:grafana /var/lib/grafana && \
+  #            chown -R grafana:grafana /usr/share/grafana"
+  #   ports:
+  #     - "0.0.0.0:3000:3000"
+  #   expose: [ 3000 ]
+  #   links:
+  #     - prometheus:prometheus
+  #   volumes:
+  #     - ./grafana/data/grafana:/var/lib/grafana
+  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=MYPASSWORD
+  #     - GF_USERS_ALLOW_SIGN_UP=false
+  #     - GF_SMTP_ENABLED=false
+  #     - GF_SMTP_USER=myadrress@gmail.com
+  #     - GF_SMTP_PASSWORD=mypassword
+  #     - GF_SMTP_FROM_ADDRESS=myaddress@gmail.com
+  #   depends_on:
+  #     - prometheus

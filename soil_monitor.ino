@@ -4,10 +4,8 @@
 #include <WiFiClient.h>
 #include <time.h>
 
-#define VIN 5         // V power voltage
-#define R 10000       // ohm resistance value
-#define DHTPIN1 12    // D6
-#define DHTPIN2 14    // D5
+#define DHTPIN1 13    // D5
+#define DHTPIN2 14    // D7
 #define ANALOG_PIN A0 // D1
 
 const char *ssid = "TIM-29854979-2g";
@@ -25,10 +23,6 @@ HTTPClient http;
 // Number of measure taken before calculate the MEAN
 const int MAX_MEASURES = 10;
 
-float temps[10];
-float hums[10];
-float heats[10];
-
 // Start url in order to verify where the dashboard is available
 String dashboard_server = "http://192.168.1.118:8080/status";
 
@@ -40,7 +34,6 @@ void flash_n_times(int n);
 void connect();
 void setup();
 void loop();
-int analogToLumen(int raw);
 void send_data(float data, String type);
 
 void connect() {
@@ -74,62 +67,51 @@ void setup() {
   Serial.println("DHT BEGIN");
   for (auto &sensor : dht) {
     sensor.begin();
-    delay(500);
+    delay(1000);
   }
   Serial.println("DHT INITIALIZED");
-  pinMode(ANALOG_PIN, INPUT);
+  // pinMode(ANALOG_PIN, INPUT);
+  // analogReference(EXTERNAL); // set the analog reference to 3.3V
   wificlient = WiFiClient();
 }
 
 void loop() {
-  float temp = -1;
-  float heat_index = -1;
-  float hum = -1;
+  float temp = 0;
+  float heat_index = 0;
+  float hum = 0;
+  int soil = 0;
 
-  int light = -1;
-  int lumen = -1;
+  float temp_avg;
+  float hum_avg;
+  float soil_avg;
 
-  int ti = 0;
-  int th = 0;
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WIFI DISCONNECTED! Trying to reconnect");
     connect();
   }
 
   for (auto &sensor : dht) {
-    temp = sensor.readTemperature(false, true);
-    hum = sensor.readHumidity(false);
-    heat_index = sensor.computeHeatIndex(temp, hum, false);
-    Serial.print("Humidity: " + String(hum));
-    Serial.print(" Temperature: " + String(temp));
-    Serial.print(" Heat Index: " + String(heat_index));
-    Serial.println();
-    send_data(temp, "temp");
-    send_data(hum, "hum");
-    send_data(heat_index, "heat");
+    temp += sensor.readTemperature(false, false);
+    soil += analogRead();
+    hum += sensor.readHumidity(false);
+    delay(2100);
   }
+  temp_avg = temp / 2.0;
+  soil_avg = soil / 2.0;
+  hum_avg = hum / 2.0;
 
-  // Read and send light
-  light = analogRead();
-  Serial.println("Light: " + String(light));
-  send_data(float(light), "light");
-  lumen = analogToLumen(light);
-  Serial.println("Lumen: " + String(lumen));
-  send_data(float(lumen), "lumen");
-  //
-  //    // Read and send soil
-  //    soil = analogSoil();
-  //    Serial.println(soil);
-  //    send_data(soil , "soil");
-  delay(2100);
-}
+  // heat_index = sensor.computeHeatIndex(temp, hum, false);
+  heat_index = dht[0].computeHeatIndex(temp_avg, hum_avg, false);
+  Serial.print("Humidity: " + String(hum_avg));
+  Serial.print(" Temperature: " + String(temp_avg));
+  Serial.print(" Heat Index: " + String(heat_index));
+  Serial.print(" Soil: " + String(soil_avg));
+  Serial.println();
 
-int analogToLumen(int raw) {
-  // Conversion rule
-  float Vout = float(raw) * (VIN / float(1023)); // Conversion analog to voltage
-  float RLDR = (R * (VIN - Vout)) / Vout; // Conversion voltage to resistance
-  int phys = 500 / (RLDR / 1000);         // Conversion resitance to lumen
-  return phys;
+  send_data(temp_avg, "temp");
+  send_data(hum_avg, "hum");
+  send_data(heat_index, "heat");
+  send_data(soil_avg, "soil");
 }
 
 void send_data(float data, String type) {
@@ -180,8 +162,7 @@ void service_discovery() {
   Serial.println("Found dashboard server: " + dashboard_server);
 }
 
-// flash_n_times is delegated to produce N flash from the standard LED of the
-// eps8266
+// flash_n_times is delegated to produce N flash from the standard LED
 void flash_n_times(int n) {
   led_off();
   for (int i = 0; i < n; i++) {

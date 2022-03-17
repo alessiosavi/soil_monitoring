@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	tempCounter = prometheus.NewGauge(
+	tempGauge = prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Namespace: "soil",
 			Name:      "temperature",
@@ -100,7 +100,7 @@ func main() {
 				return
 			}
 			log.Printf("Adding new temperature data [%f]\n", fTemp)
-			tempCounter.Set(fTemp)
+			tempGauge.Set(fTemp)
 		} else if okH {
 			fHum, err := strconv.ParseFloat(hum[0], 64)
 			if err != nil {
@@ -144,7 +144,7 @@ func main() {
 		}
 	})
 	http.Handle("/metrics", newHandlerWithHistogram(promhttp.Handler(), histogramVec))
-	prometheus.MustRegister(tempCounter, humGauge, soilGauge, lightGauge, lumenGauge, heatGauge)
+	prometheus.MustRegister(tempGauge, humGauge, soilGauge, lightGauge, lumenGauge, heatGauge)
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }
 
