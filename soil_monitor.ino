@@ -8,8 +8,8 @@
 #define DHTPIN2 14    // D7
 #define ANALOG_PIN A0 // D1
 
-const char *ssid = "TIM-29854979-2g";
-const char *password = "billagtesfinocchio";
+const char *ssid = "TIM-29854979-test";
+const char *password = "arduino-test";
 
 DHT dht[] = {
     {DHTPIN1, DHT22},
@@ -24,7 +24,7 @@ HTTPClient http;
 const int MAX_MEASURES = 10;
 
 // Start url in order to verify where the dashboard is available
-String dashboard_server = "http://192.168.1.118:8080/status";
+String dashboard_server = "http://192.168.1.X:8080/status";
 
 int analogRead() { return analogRead(ANALOG_PIN); }
 void led_off() { digitalWrite(LED_BUILTIN, HIGH); }
@@ -70,8 +70,7 @@ void setup() {
     delay(1000);
   }
   Serial.println("DHT INITIALIZED");
-  // pinMode(ANALOG_PIN, INPUT);
-  // analogReference(EXTERNAL); // set the analog reference to 3.3V
+  pinMode(ANALOG_PIN, INPUT);
   wificlient = WiFiClient();
 }
 

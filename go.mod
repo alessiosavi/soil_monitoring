@@ -1,6 +1,6 @@
 module GoSoilMonitor
 
-go 1.17
+go 1.18
 
 require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
@@ -8,7 +8,7 @@ require (
 	github.com/prometheus/client_golang v1.12.1
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
-	golang.org/x/sys v0.0.0-20220315194320-039c03cc5b86 // indirect
+	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
 
