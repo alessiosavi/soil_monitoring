@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:1.21.4-alpine3.18
 
 
 # The latest alpine images don't have some tools like (`git` and `bash`).
